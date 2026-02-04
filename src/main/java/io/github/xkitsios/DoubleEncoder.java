@@ -1,17 +1,20 @@
 package io.github.xkitsios;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-class DoubleEncoder {
-    protected static void write(double number, ByteArrayOutputStream outputStream) throws IOException {
+public class DoubleEncoder {
+    public static int write(double number, byte[] buffer, int pos) {
         long longBits = Double.doubleToLongBits(number);
-        LongEncoder.write(longBits, outputStream);
+        for (int i = 0; i < 8; i++)
+            buffer[pos++] = (byte) (longBits >>> (i * 8));
+
+        return pos;
     }
 
-    protected static double read(ByteArrayInputStream inputStream) throws IOException {
-        long number = LongEncoder.read(inputStream);
-        return Double.longBitsToDouble(number);
+    public static double read(byte[] buffer, int[] offsetHolder) {
+        long value = 0L;
+
+        for (int i = 0; i < 8; i++)
+            value |= ((long) (buffer[offsetHolder[0]++] & 0xFF)) << (i * 8);
+
+        return Double.longBitsToDouble(value);
     }
 }

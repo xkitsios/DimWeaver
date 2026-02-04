@@ -44,8 +44,6 @@ class ConvexHull {
     }
 
     protected TimeSeriesPoint get(int index, boolean upper) {
-        if (index < 0 || (upper && index >= upperHull.size()) || (!upper && index >= lowerHull.size()))
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size(upper));
         if (upper) return upperHull.get(index);
         else return lowerHull.get(index);
     }

@@ -1,58 +1,52 @@
 package io.github.xkitsios;
 
-class Segment {
+public class Segment {
     private final long start;
-    private final boolean isY;
+    private final boolean dim;
     private Line upper;
     private Line middle;
     private Line lower;
 
-    protected Segment(long start, Line middle, boolean isY) {
+    public Segment(long start, Line upper, Line lower, boolean dim) {
         this.start = start;
-        this.isY = isY;
-        this.upper = null;
-        this.middle = middle;
-        this.lower = null;
-    }
-
-    protected Segment(long start, Line upper, Line lower, boolean isY) {
-        this.start = start;
-        this.upper = upper;
+        if (upper.getTStart() != start) this.upper = new Line(start, upper.getA(), upper.valueAt(start));
+        else this.upper = upper;
         this.middle = null;
-        this.lower = lower;
-        this.isY = isY;
+        if (lower.getTStart() != start) this.lower = new Line(start, lower.getA(), lower.valueAt(start));
+        else this.lower = lower;
+        this.dim = dim;
     }
 
-    protected long getStart() {
+    public long getStart() {
         return start;
     }
 
-    protected Line getUpper() {
+    public Line getUpper() {
         return upper;
     }
 
-    protected Line getMiddle() {
+    public Line getMiddle() {
         if (middle == null) middle = Line.getMiddleLine(start, upper, lower);
         return middle;
     }
 
-    protected Line getLower() {
+    public Line getLower() {
         return lower;
     }
 
-    protected boolean getIsY() {
-        return isY;
+    public boolean getDim() {
+        return dim;
     }
 
-    protected double getSmallestSlope() {
+    public double getSmallestSlope() {
         return Math.min(lower.getA(), upper.getA());
     }
 
-    protected double getBiggestSlope() {
+    public double getBiggestSlope() {
         return Math.max(lower.getA(), upper.getA());
     }
 
-    protected void updateSlopes(double smallest, double biggest) {
+    public void updateSlopes(double smallest, double biggest) {
         double aLow, aUp;
         if (lower.getA() < upper.getA()) {
             aLow = smallest;

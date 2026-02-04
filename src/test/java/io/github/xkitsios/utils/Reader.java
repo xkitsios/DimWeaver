@@ -15,7 +15,7 @@ public class Reader {
         return Stream.of(Objects.requireNonNull(new File(dir).listFiles())).filter(file -> !file.isDirectory()).filter(file -> file.getName().endsWith(".csv")).map(File::getAbsolutePath).toList();
     }
 
-    public static Trajectory parse(String filename) {
+    public static List<TrajectoryPoint> parse(String filename) {
         ArrayList<TrajectoryPoint> trajectoryPoints = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -33,6 +33,6 @@ public class Reader {
             System.err.println("Error reading " + filename);
         }
 
-        return new Trajectory(trajectoryPoints);
+        return trajectoryPoints;
     }
 }

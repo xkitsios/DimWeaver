@@ -1,41 +1,28 @@
 package io.github.xkitsios;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-
 public class VariableByteEncoder {
-
-    private static byte extract7bits(int i, long val) {
-        return (byte) ((val >> (7 * i)) & 0x7F);
-    }
-
-    private static byte extract7bitsmaskless(int i, long val) {
-        return (byte) (val >> (7 * i));
-    }
-
-    protected static void write(long number, ByteArrayOutputStream outputStream) {
-        int i = 0;
-        while ((number >> (7 * i)) >= 0x80) {
-            outputStream.write(extract7bits(i, number));
-            i++;
+    public static int write(long number, byte[] buffer, int pos) {
+        while ((number & ~0x7FL) != 0) {
+            buffer[pos++] = (byte) (number & 0x7F);
+            number >>>= 7;
         }
-        outputStream.write((byte) (extract7bitsmaskless(i, number) | 0x80)); // Last byte with MSB set
+        buffer[pos++] = (byte) (number | 0x80);
+
+        return pos; // new offset
     }
 
-    protected static long read(ByteArrayInputStream inputStream) {
-        long number = 0;
+    public static long read(byte[] buffer, int[] offsetHolder) {
+        long result = 0;
         int shift = 0;
-        int b;
+        byte b;
 
         while (true) {
-            b = inputStream.read();
-            if (b == -1) throw new IllegalStateException("Unexpected end of input");
-            number |= (long) (b & 0x7F) << shift;
-
+            b = buffer[offsetHolder[0]++];
+            result |= (long) (b & 0x7F) << shift;
             if ((b & 0x80) != 0) break;
             shift += 7;
         }
 
-        return number;
+        return result;
     }
 }
