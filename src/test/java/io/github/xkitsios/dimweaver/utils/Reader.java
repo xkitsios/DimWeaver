@@ -1,6 +1,6 @@
-package io.github.xkitsios.utils;
+package io.github.xkitsios.dimweaver.utils;
 
-import io.github.xkitsios.TrajectoryPoint;
+import io.github.xkitsios.dimweaver.TrajectoryPoint;
 
 import java.io.BufferedReader;
 import java.io.File;

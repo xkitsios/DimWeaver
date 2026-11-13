@@ -1,6 +1,8 @@
-package io.github.xkitsios;
+package io.github.xkitsios.dimweaver;
 
-public class DoubleEncoder {
+/** A double as 8 bytes, little-endian (the intercepts of the segments). */
+class DoubleEncoder {
+    /** Writes {@code number} at {@code pos} and returns the position after it. */
     public static int write(double number, byte[] buffer, int pos) {
         long longBits = Double.doubleToLongBits(number);
         for (int i = 0; i < 8; i++)
@@ -9,6 +11,7 @@ public class DoubleEncoder {
         return pos;
     }
 
+    /** Reads a double at {@code offsetHolder[0]} and advances it. */
     public static double read(byte[] buffer, int[] offsetHolder) {
         long value = 0L;
 

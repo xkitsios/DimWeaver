@@ -188,3 +188,9 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+### DimWeaver ###
+# Local experiments (benchmark outputs, plots), not part of the library
+experiments/
+# IDE settings (IntelliJ)
+.idea/
+*.iml
