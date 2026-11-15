@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
 
     <name>DimWeaver</name>
-    <description>DimWeaver is a state-of-the-art lossy compression algorithm for trajectories with a guaranteed maximum error.</description>
+    <description>DimWeaver is a lossy compression algorithm for trajectories with a guaranteed maximum error.</description>
     <url>https://github.com/xkitsios/DimWeaver</url>
 
     <licenses>
